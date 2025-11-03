@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>なかモンPlayground</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            /* 少し丸みのあるフォントを優先的に指定 */
+            font-family: 'Hiragino Maru Gothic ProN', 'Rounded Mplus 1c', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 1em;
+            background-color: #f4f7f6; /* 少し暖かみのある白 */
+            color: #333;
+            line-height: 1.6;
+        }
+        .header-container {
+            max-width: 900px;
+            margin: 1em auto;
+            padding: 2em 2.5em;
+            background: linear-gradient(135deg, #fffbec 0%, #ffffff 100%); /* 明るいクリーム色のグラデーション */
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            text-align: center;
+            border: 2px solid #ffdd99; /* 枠線 */
+        }
+        h1 {
+            color: #2c2c2c;
+            margin: 0.2em 0;
+            font-size: 2.5em; /* 少し大きく */
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* テキストに影 */
+        }
+        
+        /* ツール一覧のコンテナ */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em; /* 隙間を少し広げる */
+            max-width: 900px;
+            margin: 2.5em auto;
+        }
+
+        /* 各ツールのカードスタイル */
+        .tool-card {
+            background: #ffffff;
+            border-radius: 12px; /* 角を少し丸く */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 少しゆっくり動かす */
+        }
+        .tool-card:hover {
+            transform: translateY(-8px) scale(1.02); /* ホバーで少し浮き上がり、大きくなる */
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15); /* 影を濃く */
+        }
+
+        .tool-card-header {
+            /* シミュレーターの色を明るいオレンジに変更 */
+            background-color: #ff8c00; /* (旧: #007bff) */
+            color: white;
+            padding: 1.2em 1.5em;
+            text-align: center; /* 中央揃え */
+        }
+        .tool-card-header h2 {
+            margin: 0;
+            font-size: 1.6em; /* 少し大きく */
+            font-weight: bold;
+        }
+        .tool-card-body {
+            padding: 1.5em;
+            flex-grow: 1;
+        }
+        .tool-card-body p {
+            margin: 0 0 1.5em 0;
+            font-size: 0.95em;
+            color: #555;
+        }
+        .tool-card-footer {
+            padding: 0 1.5em 1.5em 1.5em;
+            text-align: center; /* ボタンも中央揃えに */
+        }
+        
+        /* ボタンのスタイル */
+        .start-button {
+            display: inline-block;
+            font-size: 1.15em; /* フォントサイズを少し調整 (1.2em -> 1.15em) */
+            font-weight: bold;
+            padding: 12px 25px; /* 横パディングを調整 (35px -> 25px) */
+            color: #fff;
+            /* シミュレータの色を明るいオレンジに変更 */
+            background-color: #ff8c00; /* (旧: #007bff) */
+            border: none;
+            border-radius: 50px; /* ピル型（丸い形）に変更 */
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3); /* ボタンにも影 */
+        }
+        .start-button:hover {
+            /* ホバー色もオレンジ系に */
+            background-color: #e67e00; /* (旧: #0056b3) */
+            transform: scale(1.05); /* ホバーで少し大きく */
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.5);
+        }
+        .start-button:active {
+            transform: scale(0.98);
+        }
+        /* 無効化されたボタン */
+        .start-button.disabled {
+            background-color: #b0b0b0; /* (旧: #a0a0a0) */
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .start-button.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* お知らせセクションのスタイル */
+        .info-container {
+            max-width: 900px;
+            margin: 2.5em auto;
+            padding: 1.5em 2.5em;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+        .info-container h2 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-container">
+        <h1>🎉 なかモンPlayground 🥳</h1>
+        <p>（DQWなかまモンスター関連のツール置き場）</p>
+    </header>
+
+    <main class="tools-grid">
+
+        <div class="tool-card">
+            <div class="tool-card-header">
+                <h2>⚔️ バトルシミュレーター</h2>
+            </div>
+            <div class="tool-card-body">
+                <p>
+                    「なかまモンスターバトル」のシミュレーションを実行します✨
+                </p>
+                
+                <ul style="font-size: 0.9em; padding-left: 20px; color: #444; margin-top: 1.5em; list-style-type: '⚠️'; padding-left: 1.5em;">
+                    
+                    <li style="margin-bottom: 0.7em; padding-left: 0.5em;">
+                        <strong>ブックマークについて:</strong><br>
+                        シミュレータのURLは定期的に変わる可能性があります。
+                        このポータルサイト（Playground）をブックマークしてください。
+                    </li>
+                    
+                    <li style="margin-bottom: 0.7em; padding-left: 0.5em; list-style-type: '💾';">
+                        <strong>データ保存について:</strong><br>
+                        「チーム保存」「モンスター保存」はブラウザに一時保存されます。データが消える前に、こまめに「ファイルとして保存」機能をご利用ください。
+                    </li>
+                </ul>
+            </div>
+            <div class="tool-card-footer">
+                <button id="simStartButton" class="start-button" onclick="redirectToSimulator()">
+                    冒険にでかける
+                </button>
+            </div>
+        </div>
+
+        <div class="tool-card">
+            <div class="tool-card-header" style="background-color: #6c757d;"> <h2>🧮 ？？？</h2>
+            </div>
+            <div class="tool-card-body">
+                <p>
+                    （準備中）<br>
+                </p>
+            </div>
+            <div class="tool-card-footer">
+                <button class="start-button disabled" disabled>
+                    準備中
+                </button>
+            </div>
+        </div>
+
+    </main>
+    <div class="info-container">
+        <h2>お知らせ・補足情報</h2>
+        
+        <p><strong>2025/11/3【v1.0.0 リリース】</strong></p>
+        <ul>
+            <li>「バトルシミュレーター」を公開しました。</li>
+                不具合の連絡は、
+                <a href="https://x.com/nakamon_sim" target="_blank" rel="noopener noreferrer">
+                    X（旧Twitter）
+                </a>
+                までお願いします。
+            </ul>
+
+    </div>
+    <script>
+        function redirectToSimulator() {
+            // --- ここにデプロイしたStreamlitアプリのURLを列挙してください ---
+            var simulatorUrls = [
+                "https://sim-1.streamlit.app/", // 1台目
+                "https://sim-2.streamlit.app/", // 2台目
+                "https://sim-3.streamlit.app/"  // 3台目
+                // 必要に応じて追加
+            ];
+            // -----------------------------------------------------------
+
+            // リストからランダムに1つのURLを選ぶ
+            var randomIndex = Math.floor(Math.random() * simulatorUrls.length);
+            var redirectUrl = simulatorUrls[randomIndex];
+
+            // ボタンのテキストを変更して、転送中であることを示す
+            var button = document.getElementById("simStartButton");
+            if (button) {
+                button.innerText = "転送中...";
+                button.disabled = true;
+                // 他のボタンも無効化
+                var allButtons = document.querySelectorAll('.start-button');
+                allButtons.forEach(function(btn) { 
+                    btn.disabled = true; 
+                    if (!btn.classList.contains('disabled')) {
+                        btn.style.backgroundColor = '#a0a0a0'; // 無効化の色を統一
+                        btn.style.boxShadow = 'none';
+                    }
+                });
+            }
+
+            // 選んだURLにリダイレクト（転送）する
+            window.location.href = redirectUrl;
+        }
+    </script>
+
+</body>
+</html>
