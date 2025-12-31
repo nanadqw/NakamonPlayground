@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【ドラぽか】年越しチャレンジ'25 Lv.99 安定周回攻略</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 { font-size: 1.5rem; border-bottom: 2px solid #555; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { font-size: 1.3rem; background-color: #eee; padding: 10px; border-left: 5px solid #007bff; margin-top: 30px; }
+        h3 { font-size: 1.1rem; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px; color: #444; }
+        ul, ol { padding-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        strong { color: #d32f2f; background: linear-gradient(transparent 70%, #ffcccc 70%); }
+        .note { background-color: #fff3cd; border: 1px solid #ffeeba; padding: 10px; border-radius: 5px; font-size: 0.9rem; margin: 10px 0; }
+        .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #007bff; font-weight: bold; }
+        .back-link:hover { text-decoration: underline; }
+        code { background-color: #eee; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        .card-list { background-color: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-link">🔙 トップページに戻る</a>
+
+    <h1>【ドラぽか】年越しチャレンジ'25 Lv.99 安定周回攻略</h1>
+
+    <p>
+    本記事では、ドラクエウォーク「ドラぽか」コンテンツ内の『年越しチャレンジ'25（難易度Lv.99）』を安定して周回するための手順を解説します。<br>
+    運要素を極力排除し、仕様を突いた立ち回りで安定クリアを目指します。<br>
+    <strong>読むの面倒な方は一番最後の実践動画(YouTube)をご覧ください</strong>
+    </p>
+
+    <h2>0. 事前準備</h2>
+    <p>クエスト開始時に選択する加護は、以下を選んでください。</p>
+    <ul>
+        <li><strong>ゴールドの加護</strong></li>
+    </ul>
+
+    <h2>1. モンスターじいさん</h2>
+    <p>ここでは不要なカードを整理し、後半に向けてデッキの質を高めます。</p>
+
+    <h3>🚮 おわかれ</h3>
+    <p>手札にある<strong>「K（キング）〜 6」</strong>のカードを、<strong>最大5枚</strong>まで選択して「おわかれ」します。</p>
+    <ul>
+        <li>対象カード（K〜6）が5枚未満の場合は、ある分だけ全ておわかれしてください。</li>
+        <li><strong>目的：</strong> デッキを圧縮し、主力となる<strong>「A（エース）、2〜5」</strong>のカードを引く確率を上げます。</li>
+    </ul>
+
+    <h3>⚔️ 訓練</h3>
+    <p>基本的には<strong>スルーでOK</strong>です。</p>
+    <ul>
+        <li>もし「メタル化」が来た場合は、ハイスコア狙いに切り替えて「訓練」するのもありです。</li>
+        <li>（※本記事では安定周回を目的とするため、ハイスコア狙いの手順については割愛します）</li>
+    </ul>
+
+    <h2>2. ルイーダの酒場（最重要）</h2>
+    <p>本攻略において<strong>最も重要なパート</strong>です。<br>
+    ルイーダの仕様（挙動）を逆手に取り、運任せではなく<strong>「狙った助っ人を確実に引く」</strong>立ち回りを行います。</p>
+
+    <div class="card-list">
+        <h3>🎯 目指す最終メンバー（4人）</h3>
+        <ol>
+            <li><strong>リバーロ</strong>（★3）</li>
+            <li><strong>ライアン</strong>（★5）</li>
+            <li><strong>ラーナ</strong>（★4）</li>
+            <li><strong>鞭の英雄</strong>（★5） または <strong>セラフィ</strong>（★4）</li>
+        </ol>
+    </div>
+
+    <h3>💡 知っておくべき「ルイーダの仕様」</h3>
+    <p>この挙動を利用して助っ人候補の山札を圧縮します。</p>
+    <ul>
+        <li>現在雇用している助っ人は、候補に出現しない。</li>
+        <li><strong>一度雇用して「おわかれ」した場合：</strong>
+            <ul>
+                <li><strong>★5助っ人</strong> ➡ 候補に<strong>二度と出現しない</strong></li>
+                <li>★4助っ人 ➡ ★5とほぼ同じ(但しおわかれしまくって候補の数が足りなくなると、再度出てくる)</li>
+                <li>★3助っ人 ➡ 再度出現する</li>
+            </ul>
+        </li>
+    </ul>
+    <div class="note">
+        <strong>※注：</strong> ★5★4 再出現に関する挙動は公表されてるものではなく、あくまで筆者の検証結果に基づいてます。確定情報ではない可能性がある点をご留意ください。
+    </div>
+
+    <h3>🔄 立ち回り手順</h3>
+
+    <h4>① ライアンを確保する</h4>
+    <p>まずは最優先で「ライアン」を引きに行きます。</p>
+    <ol>
+        <li><strong>★3助っ人（リバーロ、ヴェル）</strong> が出たら即確保する。</li>
+        <li><strong>コスト600以下の★5助っ人</strong> は片っ端から確保する。</li>
+        <li><strong>枠が埋まった場合：</strong>
+            <ul>
+                <li>「鞭の英雄」<strong>以外</strong>の★5助っ人と「おわかれ」して枠を空け、新しい★5を雇う。</li>
+                <li><em>※おわかれした★5を候補から除外することで、ライアンが出る確率を上げます。</em></li>
+            </ul>
+        </li>
+        <li>ライアンが出たら確保する。</li>
+    </ol>
+
+    <h4>② 残りのメンバーを揃える</h4>
+    <p>ライアン確保の過程で「鞭の英雄」が引けているかどうかで分岐します。</p>
+    <ul>
+        <li><strong>パターンA：すでに「鞭の英雄」がいる場合</strong>
+            <ul><li>残りのコインで<strong>「ラーナ」</strong>が出るまで粘り、確保して終了。</li></ul>
+        </li>
+        <li><strong>パターンB：「鞭の英雄」がいない場合</strong>
+            <ul><li><strong>「ラーナ」</strong>に加え、<strong>「鞭の英雄」または「セラフィ」</strong>が出るまで粘り、揃ったら終了。</li></ul>
+        </li>
+    </ul>
+
+    <h4>💰 カジノコインの目安</h4>
+    <ul>
+        <li><strong>目標残高：10,000枚以上</strong>（最低でも5,000枚以上）</li>
+        <li>基本的に上記の手順で足りますが、もしカツカツになる場合は、手順①で確保する「不要な★5」の数を減らすなど調整してください。</li>
+    </ul>
+
+    <h2>3. トルネコの商店</h2>
+    <p>ここの目的はシンプルです。ルイーダで温存したコインを使い、以下の重要アイテムを確保します。<br>
+
+    <div class="card-list">
+        <h3>🛒 購入リスト</h3>
+        <ol>
+            <li><strong>超ハート交換スクロール</strong>：1枚</li>
+            <li><strong>メタルカード</strong>：2枚</li>
+        </ol>
+    </div>
+
+    <h2>4. ボス戦（サンライズスライム）</h2>
+    <p>いよいよ決戦です。<br>
+    ここでは<strong>ハートの連撃対象カードを複数メタル化してフラッシュ(ストフラならなお良し)を作ること</strong>が目標です。</p>
+
+    <h3>🔄 フェーズ1：手札調整</h3>
+    <p>コマンドの<strong>「捨てる（3回）」「戦う（2回）」</strong>を駆使して、山札を回転させます。</p>
+
+    <h4>🎯 目指す手札（理想形）</h4>
+    <ul>
+        <li>数字：<strong>A、2、3、4、5</strong> （リバーロ等の特性が乗る数字）</li>
+        <li>スート：<strong>ハートが3枚以上</strong> （ラーナの特性が乗るスート）</li>
+    </ul>
+
+    <h4>判断基準</h4>
+    <p><strong>「捨てる（1〜3回目）」</strong>と<strong>「戦う（1〜2回目）」</strong>を行いながら、以下の基準でカードを残します。</p>
+    <ol>
+        <li><strong>ハートは絶対に残す</strong>（最優先）</li>
+        <li><strong>A、2〜5</strong> の数字を残す。
+            <ul>
+                <li>基本は<strong>「ストレート」</strong>になるように、数字が被らないように残す。</li>
+                <li><strong>例外（セラフィがいる場合）：</strong> 「5」と「2」が多く引けているなら、ストレートを無視してでも「5・2」を優先して残してOK。</li>
+            </ul>
+        </li>
+        <li><strong>捨てる枚数について</strong>
+            <ul>
+                <li>序盤～中盤は<strong>最大枚数（5枚）</strong>捨てて山札を回す。</li>
+                <li>早々に「ハートのA・2〜5」が3枚以上揃ったら、無理に捨てずにキープに入る。</li>
+                <li>中盤～終盤は、枚数を捨てることより<strong>「A・2〜5」を手元に多く残す</strong>ことを優先する。</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h3>🧪 フェーズ2：アイテム使用</h3>
+    <p>手札調整が終わったら、以下の順番でアイテムを使用します。</p>
+    <ol>
+        <li><strong>超ハート交換スクロール</strong>
+            <ul><li>ハート以外のカード（最大5枚）をハートに変化させます。</li>
+            <li>※交換対象が6枚以上ある場合は、「A、2〜5」を優先して残し、ストレートフラッシュ（またはセラフィがいるなら5・2多め）を狙う。</li></ul>
+        </li>
+        <li><strong>メタルカード × 2枚</strong>
+            <ul><li>ここで運良く「ハートの A、2〜5」がメタル化することを祈ります。</li></ul>
+        </li>
+        <li><strong>メタルキングコイン</strong>（持っている場合）
+            <ul><li>最後の攻撃に使う役（メタル化したカードなど）に使用します。</li></ul>
+        </li>
+    </ol>
+
+    <h3>💥 フェーズ3：最後の攻撃</h3>
+    <p>整った手札でフィニッシュです。</p>
+    <ul>
+        <li><strong>理想：メタル化したハートを含むストレートフラッシュ</strong>（A・5・4・3・2）<br>
+        助っ人のバフ効果とメタル効果が最大限に乗った一撃で倒し切ります。</li>
+        <li><strong>妥協：フラッシュ</strong><br>
+        ストレートが揃わなかったり、メタル化の位置が悪かった場合は、無理せずフラッシュで攻撃します。</li>
+    </ul>
+
+    <h2>🎬 実践動画（参考）</h2>
+    <p>実際の周回の様子をYouTubeにアップしました。手札調整の細かなニュアンスなどは動画の方が分かりやすいかもしれません。</p>
+
+    <div class="card-list">
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li style="margin-bottom: 15px; border-bottom: 1px dashed #ddd; padding-bottom: 10px;">
+                <strong><a href="https://youtu.be/Td-XiNhtX1Y?si=kzXgFPC6FWOfFNYG" target="_blank" style="font-size: 1.1rem; color: #d32f2f; text-decoration: none;">📺 実践動画①：安定クリア - 理想形</a></strong><br>
+                <span style="font-size: 0.9rem; color: #666;">理想形です</span>
+            </li>
+            <li style="margin-bottom: 15px; border-bottom: 1px dashed #ddd; padding-bottom: 10px;">
+                <strong><a href="https://youtu.be/ahOsaf3j1m8?si=4hjKA7P8TkxBI6Sb" target="_blank" style="font-size: 1.1rem; color: #d32f2f; text-decoration: none;">📺 実践動画②：安定クリア - セラフィ版</a></strong><br>
+                <span style="font-size: 0.9rem; color: #666;">鞭の英雄に変えてセラフィのパターン。攻撃時のカード調整で1枚失敗してますが、これくらいは上出来の部類に入ります</span>
+            </li>
+            <li>
+                <strong><a href="https://youtu.be/Ioo1YTLIugA?si=thpVSdfa9JLI9gfY" target="_blank" style="font-size: 1.1rem; color: #d32f2f; text-decoration: none;">📺 実践動画③：失敗版</a></strong><br>
+                <span style="font-size: 0.9rem; color: #666;">運がかみ合わずに失敗したバージョンです。それでもウィンコインはほぼ満額もらえてるので文句は無し。</span>
+            </li>
+        </ul>
+    </div>
+
+    <hr>
+    <a href="index.html" class="back-link">🔙 トップページに戻る</a>
+
+</body>
+</html>
