@@ -32,179 +32,171 @@
 
     <style>
         body {
-            /* 少し丸みのあるフォントを優先的に指定 */
             font-family: 'Hiragino Maru Gothic ProN', 'Rounded Mplus 1c', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 1em;
-            background-color: #f4f7f6; /* 少し暖かみのある白 */
+            background-color: #f8faf9; /* よりクリーンな背景色 */
             color: #333;
             line-height: 1.6;
         }
         .header-container {
             max-width: 900px;
             margin: 1em auto;
-            padding: 2em 2.5em;
-            background: linear-gradient(135deg, #fffbec 0%, #ffffff 100%); /* 明るいクリーム色のグラデーション */
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 2.5em 2em;
+            background: linear-gradient(135deg, #fffdec 0%, #ffffff 100%);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             text-align: center;
-            border: 2px solid #ffdd99; /* 枠線 */
+            border: 2px solid #ffedc2;
         }
         h1 {
             color: #2c2c2c;
-            margin: 0.2em 0;
-            font-size: 2.5em; /* 少し大きく */
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* テキストに影 */
+            margin: 0;
+            font-size: 2.2em;
+            letter-spacing: 0.05em;
+        }
+        .header-container p {
+            margin-top: 0.5em;
+            color: #666;
+            font-weight: bold;
         }
         
-        /* ツール一覧のコンテナ */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2em; /* 隙間を少し広げる */
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2em;
             max-width: 900px;
             margin: 2.5em auto;
         }
 
-        /* 各ツールのカードスタイル */
         .tool-card {
             background: #ffffff;
-            border-radius: 12px; /* 角を少し丸く */
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 少しゆっくり動かす */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .tool-card:hover {
-            transform: translateY(-8px) scale(1.02); /* ホバーで少し浮き上がり、大きくなる */
-            box-shadow: 0 12px 35px rgba(0,0,0,0.15); /* 影を濃く */
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
         }
 
         .tool-card-header {
-            /* シミュレーターの色を明るいオレンジに変更 */
-            background-color: #ff8c00; /* (旧: #007bff) */
+            background-color: #ff8c00;
             color: white;
-            padding: 1.2em 1.5em;
-            text-align: center; /* 中央揃え */
+            padding: 1.5em;
+            text-align: center;
         }
         .tool-card-header h2 {
             margin: 0;
-            font-size: 1.6em; /* 少し大きく */
-            font-weight: bold;
+            font-size: 1.4em;
         }
         .tool-card-body {
             padding: 1.5em;
             flex-grow: 1;
         }
         .tool-card-body p {
-            margin: 0 0 1.5em 0;
+            margin: 0 0 1.2em 0;
             font-size: 0.95em;
-            color: #555;
+            color: #444;
         }
         .tool-card-footer {
-            padding: 0 1.5em 1.5em 1.5em;
-            text-align: center; /* ボタンも中央揃えに */
+            padding: 0 1.5em 2em 1.5em;
+            text-align: center;
         }
         
-        /* ボタンのスタイル */
         .start-button {
             display: inline-block;
-            font-size: 1.15em; /* フォントサイズを少し調整 (1.2em -> 1.15em) */
+            font-size: 1.1em;
             font-weight: bold;
-            padding: 12px 25px; /* 横パディングを調整 (35px -> 25px) */
+            padding: 14px 40px;
             color: #fff;
-            /* シミュレータの色を明るいオレンジに変更 */
-            background-color: #ff8c00; /* (旧: #007bff) */
+            background-color: #ff8c00;
             border: none;
-            border-radius: 50px; /* ピル型（丸い形）に変更 */
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
-            transition: background-color 0.3s, transform 0.1s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3); /* ボタンにも影 */
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
         }
         .start-button:hover {
-            /* ホバー色もオレンジ系に */
-            background-color: #e67e00; /* (旧: #0056b3) */
-            transform: scale(1.05); /* ホバーで少し大きく */
-            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.5);
-        }
-        .start-button:active {
-            transform: scale(0.98);
+            background-color: #e67e00;
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+            transform: translateY(-2px);
         }
 
-        /* 攻略記事用の青いボタンスタイル（追加） */
+        /* 応援セクション */
+        .support-container {
+            max-width: 900px;
+            margin: 2.5em auto;
+            padding: 2em;
+            background: #fff0f5; /* 優しいピンク系 */
+            border-radius: 16px;
+            text-align: center;
+            border: 2px dashed #ffb6c1;
+        }
+        .support-container h2 {
+            margin-top: 0;
+            color: #d81b60;
+            font-size: 1.3em;
+        }
+        .support-container p {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 1.5em;
+        }
+        .ofuse-button {
+            background-color: #ff5a5f;
+            box-shadow: 0 4px 15px rgba(255, 90, 95, 0.3);
+        }
+        .ofuse-button:hover {
+            background-color: #e34a4f;
+            box-shadow: 0 6px 20px rgba(255, 90, 95, 0.4);
+        }
+
+        .guide-box {
+            padding: 15px; 
+            background-color: #f0f8ff; 
+            border: 1px solid #cce5ff; 
+            border-radius: 12px;
+        }
         .guide-button {
             background-color: #007bff;
             box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
         }
         .guide-button:hover {
             background-color: #0056b3;
-            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.5);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
         }
 
-        /* 攻略記事ボックスのスタイル（追加） */
-        .guide-box {
-            margin: 20px 0; 
-            padding: 15px; 
-            background-color: #f0f8ff; 
-            border: 1px solid #cce5ff; 
-            border-radius: 8px;
-        }
-
-        /* お知らせセクションのスタイル */
-        .info-container {
+        .info-container, .disclaimer-container {
             max-width: 900px;
-            margin: 2.5em auto;
-            padding: 1.5em 2.5em;
+            margin: 2em auto;
+            padding: 1.5em 2em;
             background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
         }
-        .info-container h2 {
-            border-bottom: 2px solid #eee;
-            padding-bottom: 5px;
+        .disclaimer-container {
+            border: 1px solid #eee;
+        }
+        .info-container h2, .disclaimer-container h2 {
+            font-size: 1.2em;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
             margin-top: 0;
         }
-
-        /* 免責事項コンテナのCSS */
-        .disclaimer-container {
-            max-width: 900px;
-            margin: 2.5em auto;
-            padding: 1em 2.5em 1.5em 2.5em; /* 上下のパディングを調整 */
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            border: 2px solid #ddd; /* 通常のお知らせより少し目立たない枠線 */
-        }
-        .disclaimer-container h2 {
-            color: #555; /* 少し薄い文字色 */
-            border-bottom: 2px solid #eee;
-            padding-bottom: 5px;
-            margin-top: 0.5em; /* h2の上のマージンを調整 */
-        }
-        .disclaimer-container ul {
-            padding-left: 20px;
-            font-size: 0.9em; /* 少し小さめの文字で */
-            color: #444;
-        }
-        .disclaimer-container li {
-            margin-bottom: 1em; /* 各項目間を少し空ける */
-        }
-
-        ul {
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 0.5em;
-        }
+        ul { padding-left: 1.5em; font-size: 0.9em; color: #555; }
+        li { margin-bottom: 0.8em; }
     </style>
 </head>
 <body>
 
     <header class="header-container">
         <h1>🎉 なかモンPlayground 🥳</h1>
-        <p>（DQWなかまモンスター関連のツール置き場）</p>
+        <p>〜 DQWなかまモンスター ツールポータル 〜</p>
     </header>
 
     <main class="tools-grid">
@@ -215,27 +207,18 @@
             </div>
             <div class="tool-card-body">
                 <p>
-                    「なかまモンスターバトル」のシミュレーションを実行します✨<br>
-                    じぶんとあいてのパーティーを組んで、バトル結果をシミュレーションすることができます。
+                    「なかまモンスター」の対戦結果を精密に計算します。<br>
+                    理想のパーティー構成やスキル継承の検証にご活用ください。
                 </p>
                 
-                <ul style="font-size: 0.9em; padding-left: 20px; color: #444; margin-top: 1.5em; list-style-type: '⚠️'; padding-left: 1.5em;">
-
-                    <li style="margin-bottom: 0.7em; padding-left: 0.5em; list-style-type: '💾';">
-                        <strong>機能について:</strong><br>
+                <ul style="list-style-type: '💡';">
+                    <li><strong>サーバー保存機能を実装:</strong><br>
+                        Googleログインにより、作成したモンスターやチームをサーバーに保存・同期できるようになりました。</li>
+                    <li><strong>知識が必要なツールです:</strong><br>
                         本シミュレーターは、インテリジェンスな機能（モンスターを登録すると自動で最適なパーティーを組んでくれる等）は現状ありません。<br>
-                        そのため、本シミュレータを使用してグランプリで好成績を残せるパーティーを組むためには（手持ちの個体がそろっていることはもちろんのこと）ある程度の知識がないと難しいかもしれません。ご了承ください。
-                    </li>
-                    <li style="margin-bottom: 0.7em; padding-left: 0.5em;">
-                        <strong>ブックマークについて:</strong><br>
-                        シミュレータのURLは定期的に変わる可能性があります。
-                        このポータルサイト（Playground）をブックマークしてください。
-                    </li>
-                    
-                    <li style="margin-bottom: 0.7em; padding-left: 0.5em; list-style-type: '💾';">
-                        <strong>データ保存について:</strong><br>
-                        「チーム保存」「モンスター保存」はブラウザに一時保存されます。データが消える前に、こまめに「ファイルとして保存」機能をご利用ください。
-                    </li>
+                        そのため、本シミュレータを使用してグランプリで好成績を残せるパーティーを組むためにはある程度の個体と知識がないと難しいかもしれません。ご了承ください。</li>
+                    <li><strong>ブックマーク推奨:</strong><br>
+                        シミュレーター本体のURLは変わる可能性があるため、このポータルをブックマークしてください。</li>
                 </ul>
             </div>
             <div class="tool-card-footer">
@@ -247,19 +230,19 @@
 
         <div class="tool-card">
             <div class="tool-card-header" style="background-color: #6c757d;"> 
-                <h2>🧮 攻略情報等</h2>
+                <h2>🧮 攻略情報・データ</h2>
             </div>
             <div class="tool-card-body">
                 <div class="guide-box">
-                    <h3 style="margin-top: 0;">📚 ドラぽか「年越しチャレンジ Lv.99」 安定周回法</h3>
-                    <p>ドラぽか「年越しチャレンジ'25 Lv.99」の安定周回の方法をまとめました</p>
+                    <h3 style="margin-top: 0; font-size: 1.1em;">📚 ドラぽか「年越しチャレンジ Lv.99」 安定周回法</h3>
+                    <p>高難度「ドラぽか2025」の効率的な周回手順を解説しています。</p>
                     <div style="text-align: center; margin-top: 15px;">
                         <a href="dorapoka_lv99.html" class="start-button guide-button">
-                            Lv99 安定周回法を見る ➡
+                            解説ページを見る ➡
                         </a>
-                        <br>
-                        <strong>イベント期間は終了しました
-                            <br>（～2026/1/5 15:00）</strong>
+                        <p style="margin-top: 10px; font-size: 0.8em; color: #888;">
+                            ※イベント期間は終了しました
+                        </p>
                     </div>
                 </div>
             </div>
@@ -267,65 +250,54 @@
 
     </main>
 
+    <section class="support-container">
+        <h2>🍵 開発を応援する（OFUSE）</h2>
+        <p>
+            本シミュレーターは個人で開発・運営しています。<br>
+            もしツールがお役に立てましたら、活動を応援いただけると非常に励みになります！
+        </p>
+        <a href="https://ofuse.me/nakamonsim" target="_blank" rel="noopener noreferrer" class="start-button ofuse-button">
+            応援の気持ちを送る（外部サイト）
+        </a>
+    </section>
+
     <div class="disclaimer-container">
         <h2>免責事項・注意事項</h2>
         <ul>
-            <li>
-                <strong>公式との関係について:</strong><br>
-                当サイトは「ドラゴンクエストウォーク」の非公式ファンツールです。ゲームの制作者・運営会社（スクウェア・エニックス様、コロプラ様、関係各社様）とは一切関係ありません。
-            </li>
-            <li>
-                <strong>シミュレーターの正確性について:</strong><br>
-                本シミュレーターの動作や計算結果は、有志の検証や推測に基づき作成されており、<strong>実際のゲーム内での動作と異なる場合があります。</strong>
-            </li>
-            <li>
-                <strong>責任の所在について:</strong><br>
-                本ツールの利用によって生じたいかなる損害や不利益（ゲーム内での勝敗を含む）についても、制作者は一切の責任を負いません。すべてのシミュレーション結果は、あくまで参考情報としてご利用ください。
-            </li>
-            <li>
-                <strong>仕様の変更・停止について:</strong><br>
-                本ツールの仕様、シミュレーターのURL、および公開は、予告なく変更または停止する場合があります。
-            </li>
+            <li><strong>公式非公式について:</strong> 本サイトはファンによる非公式ツールであり、株式会社スクウェア・エニックス様、株式会社コロプラ様等とは一切関係ありません。</li>
+            <li><strong>計算結果について:</strong> 有志の検証に基づく推測値を含みます。実際のゲーム内での動作と異なる場合があります。</li>
+            <li><strong>責任について:</strong> 本ツールの利用により生じた不利益について、制作者は一切の責任を負いません。</li>
         </ul>
     </div>
 
     <div class="info-container">
-        <h2>お知らせ・補足情報</h2>
-        <p><strong>2026/1/16</strong></p>
+        <h2>お知らせ</h2>
+        <p><strong>2026/2/6 - v1.2.0</strong></p>
         <ul>
-            <li>状態異常・状態変化の振る舞いの実装が一通り完了したため、シミュレータを v1.1.0 としました。</li>
-        </ul>        
+            <li>サーバー保存機能を追加。</li>
+        </ul>
+        <p><strong>2026/1/16 - v1.1.0</strong></p>
+        <ul>
+            <li>状態異常・変化の振る舞い実装完了。</li>
+        </ul>
         <p><strong>2025/12/31</strong></p>
         <ul>
             <li>ドラぽか「年越しチャレンジ'25 Lv.99」安定周回方法の攻略記事を公開しました。</li>
         </ul>
-        <p><strong>2025/11/3</strong></p>
+        <p><strong>2025/11/3 - v1.0.0</strong></p>
         <ul>
-            <li>「バトルシミュレーター」v1.0.0 を公開しました。</li>
-                不具合の連絡は、
-                <a href="https://x.com/nakamon_sim" target="_blank" rel="noopener noreferrer">
-                    X（旧Twitter）
-                </a>
-                までお願いします。<br>
-                ※ 現状は無料枠で運用しているため、想定以上の負荷がかかると動作しなくなる可能性があります。あまりにも使用に耐えない場合は、一旦サービスを停止する場合があります。ご了承ください。
+            <li>シミュレーター v1.0.0 公開。不具合連絡は <a href="https://x.com/nakamon_sim" target="_blank">X（旧Twitter）</a> まで。</li>
         </ul>
     </div>
 
     <script>
         function redirectToSimulator() {
-            // --- ここにデプロイしたStreamlitアプリのURLを列挙してください ---
             var simulatorUrls = [
                 "https://dqw-monsterbattlesimulator.streamlit.app/",
-                // 必要に応じて追加
             ];
-            // -----------------------------------------------------------
-
-            // リストからランダムに1つのURLを選ぶ
             var randomIndex = Math.floor(Math.random() * simulatorUrls.length);
             var redirectUrl = simulatorUrls[randomIndex];
-
-            // 選んだURLを「新しいタブ」で開く
-            window.open(redirectUrl, '_blank');
+            window.open(redirectUrl, '_self'); // ポータルの利便性のため同一タブ遷移
         }
     </script>
 
