@@ -3,42 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プライバシーポリシー・利用規約 | なかモンPlayground</title>
+    <title>プライバシーポリシー | なかモンPlayground</title>
     <style>
-        body { font-family: sans-serif; line-height: 1.7; max-width: 800px; margin: 2em auto; padding: 0 1.5em; color: #333; background-color: #fdfdfd; }
-        h1 { border-bottom: 3px solid #ff8c00; padding-bottom: 0.5em; font-size: 1.8em; }
-        h2 { border-left: 5px solid #ff8c00; padding-left: 0.5em; margin-top: 2em; font-size: 1.4em; }
-        ul { padding-left: 1.2em; }
-        li { margin-bottom: 0.8em; }
-        .footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #eee; font-size: 0.9em; text-align: center; }
-        .important { color: #d32f2f; font-weight: bold; }
+        body { font-family: sans-serif; line-height: 1.7; max-width: 800px; margin: 2em auto; padding: 0 1.5em; color: #333; }
+        h1 { border-bottom: 3px solid #ff8c00; color: #444; }
+        h2 { border-left: 5px solid #ff8c00; padding-left: 0.5em; margin-top: 2em; color: #444; }
+        .highlight { background-color: #fff3e0; padding: 15px; border-radius: 8px; border: 1px solid #ffe0b2; margin: 1em 0; }
+        ul { padding-left: 1.5em; }
+        li { margin-bottom: 0.5em; }
+        footer { margin-top: 3em; font-size: 0.9em; text-align: center; border-top: 1px solid #eee; padding-top: 1em; }
     </style>
 </head>
 <body>
 
     <h1>プライバシーポリシー・利用規約</h1>
-    <p>本規約は、nanadqw（以下「制作者」）が提供する「なかまモンスターバトル シミュレーター」およびポータルサイト「なかモンPlayground」（以下「本サービス」）の利用条件および個人情報の取り扱いを定めるものです。</p>
+    <p>本規約は、制作者（nanadqw）が提供する「なかまモンスターバトル シミュレーター」（以下「本アプリ」）におけるユーザーデータの取り扱いを説明するものです。</p>
 
-    <h2>1. 免責事項（必ずご確認ください）</h2>
-    <ul>
-        <li><strong>公式との関係について:</strong> 本サービスは「ドラゴンクエストウォーク」の非公式ファンツールです。株式会社スクウェア・エニックス様、株式会社コロプラ様、および関係各社様とは一切関係ありません。</li>
-        <li class="important"><strong>正確性の非保証:</strong> シミュレーション結果は有志の検証や推測に基づいたものであり、実際のゲーム内での動作と異なる場合があります。</li>
-        <li><strong>責任の所在:</strong> 本サービスの利用によって生じたいかなる損害や不利益についても、制作者は一切の責任を負いません。</li>
-    </ul>
-
-    <h2>2. データの収集と利用目的</h2>
-    <ul>
-        <li><strong>メールアドレス:</strong> ログイン時の本人確認、およびパスワード再設定の目的のみに使用します。第三者への提供は行いません。</li>
-        <li><strong>保存データ:</strong> ユーザーが作成したモンスター構成およびチーム編成データを、サーバー上に保存・同期するために利用します。</li>
-        <li><strong>統計情報の利用:</strong> 個人を特定できない形で保存データを解析し、モンスターの採用率などの統計情報として公開する場合があります。</li>
-    </ul>
-
-    <h2>3. サービスの停止・変更</h2>
-    <p>本サービスは予告なく仕様の変更、URLの変更、または公開を停止する場合があります。あらかじめご了承ください。</p>
-
-    <div class="footer">
-        <p>© 2026 nanadqw | <a href="index.html">なかモンPlayground トップへ戻る</a></p>
+    <div class="highlight">
+        <p><strong>Google API Services User Data Policy 対応</strong><br>
+        本アプリは、Google APIから取得した情報を、限定的な使用に関するポリシーを含む <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank">Google API Services User Data Policy</a> に準拠して使用および転送します。</p>
     </div>
+
+    <h2>1. データの収集とアクセス (Data Accessed)</h2>
+    <div class="highlight">
+        <p>本アプリは、Google OAuth認証を通じて以下のユーザー情報にアクセスします：</p>
+        <ul>
+            <li><strong>メールアドレス (Email address):</strong> ユーザーの識別および本アプリへのログイン認証のため。</li>
+            <li><strong>基本的なプロフィール情報 (Basic profile info):</strong> アプリ内での表示名およびプロフィール画像の表示（ユーザーの利便性向上）のため。</li>
+            <li><strong>GoogleユーザーID (OpenID):</strong> 各ユーザーのアカウントを一意に識別し、データを安全に紐付けるため。</li>
+        </ul>
+    </div>
+
+    <h2>2. データの利用目的 (Data Usage)</h2>
+    <div class="highlight">
+        <p>取得したデータは、以下の目的のためにのみ使用され、それ以外の目的（広告への利用や第三者への販売等）には一切使用しません：</p>
+        <ul>
+            <li>本アプリのログイン・認証機能の提供。</li>
+            <li>ユーザーが本アプリ上で作成した「モンスターデータ」および「チーム編成データ」を、本人のアカウントに紐付けて保存・管理し、異なるデバイス間での同期を可能にするため。</li>
+            <li>取得した個人データを第三者に販売、共有、または広告目的で利用することはありません。</li>
+            <li>本アプリの利便性向上のため、個人を特定できない形での統計データ（例：モンスターの使用率ランキング等）の作成および公開に利用することがあります。</li>
+        </ul>
+    </div>
+
+    <h2>3. データの保存と保護 (Data Storage)</h2>
+    <p>取得した情報は、適切なセキュリティ対策を講じたデータベース（Supabase）にて厳重に管理されます。ユーザーは、本アプリからログアウトすることでセッションを終了でき、また必要に応じて保存データの削除を要求することができます。</p>
+
+    <h2>4. 免責事項</h2>
+    <p>本アプリは「ドラゴンクエストウォーク」の非公式ファンツールであり、株式会社スクウェア・エニックスおよび株式会社ゲームフリーク等とは一切関係ありません。本アプリの利用により生じた損害について、制作者は一切の責任を負いません。</p>
+
+    <footer>
+        <p>© 2026 nanadqw | <a href="index.html">トップページへ戻る</a></p>
+    </footer>
 
 </body>
 </html>
