@@ -221,18 +221,23 @@
                         シミュレーター本体のURLは変わる可能性があるため、このポータルをブックマークしてください。</li>
                 </ul>
             </div>
-            <div class="tool-card-footer">
-                <button id="simStartButton" class="start-button" onclick="redirectToSimulator()">
-                    冒険にでかける
-                </button>
-            </div>
-            <div class="tool-card-footer">
+            <div class="tool-card-footer" style="display: flex; flex-direction: column; gap: 12px;">
                 <a href="https://jisaqwdosnrnxnlpzmhr.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://dqw-monsterbattlesimulator.streamlit.app/" 
-   style="display: inline-block; background-color: #4285F4; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; font-family: sans-serif; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background-color 0.3s;"
-   onmouseover="this.style.backgroundColor='#357ae8'"
-   onmouseout="this.style.backgroundColor='#4285F4'">
-    （テスト）Googleアカウントでログインして開始
-</a>
+                   style="display: flex; align-items: center; justify-content: center; gap: 12px; background-color: #ff9800; color: white; padding: 10px; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, background-color 0.2s; width: 100%; box-sizing: border-box;"
+                           onmouseover="this.style.backgroundColor='#e68a00'; this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.backgroundColor='#ff9800'; this.style.transform='translateY(0)'">
+
+                    <div style="background-color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20" height="20" alt="Google logo">
+                    </div>
+
+                    <span style="margin-right: 12px;">Googleでログインして開始（推奨）</span>
+                </a>
+
+                <button id="simStartButton" class="start-button" onclick="redirectToSimulator()"
+                        style="width: 100%; box-sizing: border-box; background-color: transparent; color: #ff9800; border: 2px solid #ff9800; padding: 12px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: background-color 0.2s;">
+                    ゲストとして開始（保存なし）
+                </button>
             </div>
         </div>
 
