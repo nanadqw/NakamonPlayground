@@ -1,27 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="utf-8">
-    <title>認証中...</title>
+    <title>デバッグ中...</title>
+    <style>
+        body { font-family: sans-serif; padding: 2em; word-break: break-all; }
+        .box { background: #f0f0f0; padding: 1em; border-radius: 8px; margin-bottom: 1em; }
+    </style>
 </head>
 <body>
-    <script>
-        (function() {
-            const hash = window.location.hash;
-            if (hash && hash.includes('access_token')) {
-                const params = new URLSearchParams(hash.substring(1));
-                const at = params.get('access_token');
-                const rt = params.get('refresh_token');
+    <h2>🔍 認証デバッグ画面（ここで止まります）</h2>
+    <p>Supabaseからどういう状態で飛んできたかを確認します。</p>
+    
+    <div class="box">
+        <strong>1. 現在の完全なURL:</strong>
+        <div id="url" style="color: blue;"></div>
+    </div>
+    
+    <div class="box">
+        <strong>2. ハッシュ (#以降):</strong>
+        <div id="hash" style="color: red;"></div>
+    </div>
+    
+    <div class="box">
+        <strong>3. クエリ (?以降):</strong>
+        <div id="query" style="color: green;"></div>
+    </div>
 
-                if (at && rt) {
-                    // トークンをURLのクエリ(?at=...&rt=...)にして新サーバーへ飛ばす
-                    window.location.replace(`https://sim.nakamon.net/?at=${at}&rt=${rt}`);
-                    return;
-                }
-            }
-            // Cookie保存後、ハッシュ無しの綺麗なURLでStreamlitへ遷移
-            window.location.replace('https://sim.nakamon.net/');
-        })();
+    <script>
+        document.getElementById('url').innerText = window.location.href;
+        document.getElementById('hash').innerText = window.location.hash || "(なし)";
+        document.getElementById('query').innerText = window.location.search || "(なし)";
     </script>
 </body>
 </html>
