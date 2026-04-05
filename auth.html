@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>認証中...</title>
+</head>
+<body>
+    <script>
+        (function() {
+            const hash = window.location.hash;
+            if (hash && hash.includes('access_token')) {
+                const params = new URLSearchParams(hash.substring(1));
+                const at = params.get('access_token');
+                const rt = params.get('refresh_token');
+
+                if (at && rt) {
+                    // domain=.nakamon.net を指定することで、sim.nakamon.net と共有させる（超重要）
+                    document.cookie = `sb_access_token=${at}; path=/; domain=.nakamon.net; max-age=3600; SameSite=Lax`;
+                    document.cookie = `sb_refresh_token=${rt}; path=/; domain=.nakamon.net; max-age=2592000; SameSite=Lax`;
+                }
+            }
+            // Cookie保存後、ハッシュ無しの綺麗なURLでStreamlitへ遷移
+            window.location.replace('https://sim.nakamon.net/');
+        })();
+    </script>
+</body>
+</html>

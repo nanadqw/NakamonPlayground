@@ -222,7 +222,7 @@
                 </ul>
             </div>
             <div class="tool-card-footer" style="display: flex; flex-direction: column; gap: 12px;">
-                <a href="https://jisaqwdosnrnxnlpzmhr.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://dqw-monsterbattlesimulator.streamlit.app/" 
+                <a href="https://jisaqwdosnrnxnlpzmhr.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://nakamon.net/auth.html" 
                    style="display: flex; align-items: center; justify-content: center; gap: 12px; background-color: #ff9800; color: white; padding: 10px; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, background-color 0.2s; width: 100%; box-sizing: border-box;"
                            onmouseover="this.style.backgroundColor='#e68a00'; this.style.transform='translateY(-2px)'"
                    onmouseout="this.style.backgroundColor='#ff9800'; this.style.transform='translateY(0)'">
@@ -312,12 +312,13 @@
 
     <script>
         function redirectToSimulator() {
-            var simulatorUrls = [
-                "https://dqw-monsterbattlesimulator.streamlit.app/",
-            ];
-            var randomIndex = Math.floor(Math.random() * simulatorUrls.length);
-            var redirectUrl = simulatorUrls[randomIndex];
-            window.open(redirectUrl, '_self'); // ポータルの利便性のため同一タブ遷移
+            // ▼ 新サーバー（通常稼働）
+            var redirectUrl = "https://sim.nakamon.net/";
+
+            // ▼ 万が一VPSが落ちた時の緊急避難先（コメントアウト解除して切り替え）
+            // var redirectUrl = "https://dqw-monsterbattlesimulator.streamlit.app/";
+
+            window.open(redirectUrl, '_self');
         }
     </script>
 
