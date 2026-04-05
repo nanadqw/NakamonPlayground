@@ -14,9 +14,9 @@
                 const rt = params.get('refresh_token');
 
                 if (at && rt) {
-                    // domain=.nakamon.net を指定することで、sim.nakamon.net と共有させる（超重要）
-                    document.cookie = `sb_access_token=${at}; path=/; domain=.nakamon.net; max-age=3600; SameSite=Lax`;
-                    document.cookie = `sb_refresh_token=${rt}; path=/; domain=.nakamon.net; max-age=2592000; SameSite=Lax`;
+                    // トークンをURLのクエリ(?at=...&rt=...)にして新サーバーへ飛ばす
+                    window.location.replace(`https://sim.nakamon.net/?at=${at}&rt=${rt}`);
+                    return;
                 }
             }
             // Cookie保存後、ハッシュ無しの綺麗なURLでStreamlitへ遷移
