@@ -15,12 +15,14 @@
 
                 if (at && rt) {
                     // トークンをURLのクエリ(?at=...&rt=...)にして新サーバーへ飛ばす
-                    window.location.replace(`https://sim.nakamon.net/?at=${at}&rt=${rt}`);
+//                    window.location.replace(`https://sim.nakamon.net/?at=${at}&rt=${rt}`); // conoha用
+                    window.location.replace(`https://n-lator.streamlit.app/?at=${at}&rt=${rt}`); // streamlit用
                     return;
                 }
             }
             // Cookie保存後、ハッシュ無しの綺麗なURLでStreamlitへ遷移
-            window.location.replace('https://sim.nakamon.net/');
+//            window.location.replace('https://sim.nakamon.net/'); // conoha用
+            window.location.replace('https://n-lator.streamlit.app/'); // streamlit用
         })();
     </script>
 </body>
