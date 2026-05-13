@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>【なかモンAI検証】回復スキル選択ロジック完全解明！性格ごとの隠れた有意差とは | NakamonPlayground</title>
+    <meta name="description" content="ドラクエウォーク「なかまモンスター」のAIが回復スキルを選択するロジックを完全解明。「おせっかい」と「ずのう」の隠れた有意差や、全体回復を誘発させるためのステータス調整の極意を解説します。">
+    <meta name="keywords" content="ドラクエウォーク, DQウォーク, なかまモンスター, なかモン, AI, 回復ロジック, おせっかい, ずのう, ベホマラー">
+    
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 { font-size: 1.5rem; border-bottom: 2px solid #555; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { font-size: 1.3rem; background-color: #eee; padding: 10px; border-left: 5px solid #ff8c00; margin-top: 30px; }
+        h3 { font-size: 1.1rem; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px; color: #444; }
+        ul, ol { padding-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        strong { color: #d32f2f; background: linear-gradient(transparent 70%, #ffcccc 70%); }
+        .note { background-color: #fff3cd; border: 1px solid #ffeeba; padding: 10px; border-radius: 5px; font-size: 0.9rem; margin: 10px 0; }
+        .point { background-color: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 5px; font-size: 0.95rem; margin: 15px 0; }
+        .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #007bff; font-weight: bold; }
+        .back-link:hover { text-decoration: underline; }
+        code { background-color: #eee; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        .card-list { background-color: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-top: 20px;}
+        .mermaid-container { background-color: #fff; padding: 10px; border-radius: 8px; overflow-x: auto; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
+        /* 拡大画像用のスタイル */
+        .step-image { text-align: center; margin: 20px 0; }
+        .step-image img { max-width: 100%; height: auto; border: 2px solid #ddd; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-link">🔙 トップページに戻る</a>
+
+    <h1>【なかモンAI検証】回復スキル選択ロジック完全解明！性格ごとの隠れた有意差とは</h1>
+
+    <p>
+     <b>※ 文章の肉付けはAIに任せたので、ところどころで<strong>誇張表現が少し</strong>ありますが、データは筆者がしっかりと検証して分析したものなので、結構正しいと思います（100％正しい保証はもちろんありません。<strong>反例が見つかったらぜひ教えてください！</strong>）
+     <br><strong>（なお、AIによる誇張が激しい部分は筆者がこっそり取り消し線や太字にて修正・追記しておりますｗ)</strong>     
+     </b>
+    </p>
+    <p>
+     <b><strong>【重要】</strong>本項を読んで理解しても、<strong>1ミリも強くなれません（笑）</strong>
+     <br>次のGPで今より良い成績を残したいと本気で思っている人は労力に見合わないので、スルー推奨です
+     </b>
+    </p>
+
+    <h2>0. 【前置き】</h2>
+    <p>
+    なかまモンスターのグランプリや対戦において、「なぜそこで全体回復を撃ってくれないのか！」「そこで単体回復は無駄打ちだろ！」とAIの挙動に泣かされた経験は誰にでもあるはずです。<br>
+    本記事では、検証に検証を重ねてついに解明された<strong>「回復行動のAIロジック」</strong>を公開します。<br>
+    <s>これを理解すれば、これまで運だと思われていた行動をある程度コントロールし、安定した勝率を叩き出すことが可能になります。</s><b>可能になりません。ただししっかり理解すればGP中のモヤモヤは減らせるかも。</b>
+    </p>
+
+    <h2>1. 【結論】回復行動のAIロジック完全フローチャート</h2>
+    <p>まずは結論から。モンスターがどの回復スキルを使用するか（あるいは使用しないか）は、以下のフローチャートに従って決定されています。（画面拡大して見てください・・・。）</p>
+
+    <div class="mermaid-container">
+        <div class="mermaid">
+        graph TD
+            %% 統合された前提条件ノード
+            Note["<div style='white-space: nowrap; text-align: left;'><b>【HP割合】</b><br>HP割合(%) = floor(現在HP / 最大HP × 100)<br>※floor = 小数点以下切り捨て<br><br><b>【性格別のHP回復行動閾値(%)】</b><br>・おせっかい：80%以下<br>・ずのう：70%以下<br>・ぬけめ / きれもの：50%以下<br>・ちから / いっぴき / むっつり：30%以下<br>・おおぐらい：20%以下<br>（※公式のあそびかた参照）</div>"]
+            style Note fill:#ffffcc,stroke:#ffcc00,stroke-width:2px,color:#333,stroke-dasharray: 5 5
+
+            Start(["回復行動の判定開始"]) --> Step1{"① <strong>HP割合</strong>が<strong>HP回復行動閾値</strong>以下の仲間の数は？"}
+
+            %% 0体ルート
+            Step1 -- "0体" --> End0(["回復行動を行わない"])
+
+            %% 1体以上（ループ処理）ルート
+            Step1 -- "1体以上" --> LoopInit["② 手持ちの回復スキルを<br>消費MPが少ない順（昇順）に並べ、ループ開始"]
+            
+            LoopInit --> LoopProcess["③ 次のスキルを取り出し、<br><strong>HP割合</strong>が<strong>HP回復行動閾値</strong>以下の仲間達の、回復後<strong>HP割合</strong>を算出<br>※単体回復の場合はHP割合が一番低い仲間に使用する<br>※回復量は「下限値」を使用する"]
+
+            LoopProcess --> Check90{"④ <strong>HP割合</strong>が<strong>HP回復行動閾値</strong>以下の仲間達の<br><strong>回復後HP割合</strong>がすべて90%以上？"}
+
+            %% ショートサーキット（早期終了）
+            Check90 -- "YES" --> End1(["その回復スキルで決定"])
+
+            %% ループ継続
+            Check90 -- "NO" --> CheckMore{"リストに未評価の<br>スキルは残っているか？"}
+
+            CheckMore -- "YES" --> LoopProcess
+
+            %% ループを抜けきった場合の最終判定（タイブレーク処理）
+            CheckMore -- "NO" --> Eval1["⑤ <strong>HP割合</strong>が<strong>HP回復行動閾値</strong>以下の仲間達の<strong>回復後HP割合</strong>の最低値が<br>最も高くなるスキルを候補にする。<br>同率なら次に低い値...と、順に比較する"]
+            
+            Eval1 --> CheckTie1{"候補が複数あるか？<br>（同率の場合に複数となる）"}
+            
+            CheckTie1 -- "NO" --> End2_1(["その回復スキルで決定"])
+            
+            CheckTie1 -- "YES" --> Eval3["⑥ <strong>HP回復行動閾値</strong>以上の仲間の<strong>回復後HP割合</strong>の最低値が最も高くなるスキルを候補にする。<br>同率なら次に低い値...と、順に比較する"]
+            
+            Eval3 --> CheckTie3{"候補が複数あるか？<br>（同率の場合に複数となる）"}
+            
+            CheckTie3 -- "NO" --> End2_3(["その回復スキルで決定"])
+            
+            CheckTie3 -- "YES" --> End2_4(["消費MPが最も少ない回復スキルで決定"])
+
+            classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
+            classDef decision fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
+            classDef endpoint fill:#e8f5e9,stroke:#388e3c,stroke-width:2px;
+            classDef process fill:#fff3e0,stroke:#f57c00,stroke-width:2px;
+            classDef loop fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px;
+            classDef tiebreak fill:#fffde7,stroke:#fbc02d,stroke-width:2px;
+
+            class Step1,Check90,CheckMore,CheckTie1,CheckTie3 decision;
+            class LoopInit,LoopProcess loop;
+            class Eval1,Eval3 tiebreak;
+            class End0,End1,End2_1,End2_3,End2_4 endpoint;
+        </div>
+    </div>
+
+    <h2>2. フローチャートの簡単な解説</h2>
+    <p>
+    <b>たぶん元々ある程度仕組みを知ってる人は図を見るだけで理解できると思います！！（<strong>理解できた方は以下は読み飛ばしてもらってOKです！</strong>お疲れさまでした！）</b>
+    <br><br>
+    は？意味わからんぞ？？という人のために図の中の重要なステップを解説します!!
+    </p>
+
+    <h3>【Step1】<strong> HP割合</strong>が<strong>HP回復行動閾値</strong>以下の仲間の数を算出</h3>
+    <div class="step-image">
+        <img src="img/recover_step1.png" alt="Step1 フロー拡大図">
+    </div>
+    ここは割と見たまんまですね。なので説明は割愛します（ぉぃ
+    <br>
+    重要な点は、HP割合を比較する際は全てにおいて<strong>小数点以下切り捨ての整数</strong>で比較してます。これだけ押さえて次へ進みましょう。
+        
+    <h3>【Step3】<strong>HP割合</strong>が<strong>HP回復行動閾値</strong>以下の仲間達の、回復後<strong>HP割合</strong>を算出</h3>
+    <div class="step-image">
+        <img src="img/recover_step3.png" alt="Step3 フロー拡大図">
+    </div>
+    少しだけ難しくなってきました。前半と後半に分けましょう。
+    <br>
+    <h4>
+    前半『<strong>HP割合</strong>が<strong>HP回復行動閾値</strong>以下の仲間達』
+    </h4>
+    最大HPが順番に<b>1014, 1079, 1244, 987</b>(ずのうメイデン) のパーティー構成だとします。
+    <br><br>
+    全体攻撃で<b>全員320ダメージ</b>を喰らってメイデンの行動ターンとなりました。
+    <br><br>
+    現在HPとHP割合はそれぞれ<b>694(68%), 759(70%), 924(74%), 647(65%)</b>です。(HP割合は小数点切り捨ててくださいね）
+    <br><br>つまり1番目と2番目<strong>(!)</strong>と4番目の仲間の計3体が<strong>HP回復行動閾値以下の仲間</strong>となります。
+    <br>
+    2番目は70.3%とかですが、切り捨てて70%なので<strong>含まれる</strong>扱いなのがミソ（死語）です。<s>表現全部AIのせいにできるのわりと便利だな</s>
+    <h4>
+    後半『<strong>回復後HP割合</strong>を算出』
+    </h4>
+    カイフクゴエイチピーワリアイ・・・(謎)。
+    <br>
+    音にすると謎ですが、文字通り<strong>回復後のHP割合</strong>のことです（小泉）
+    <br>
+    図の注釈にも書いてますが、<strong>回復後HP割合</strong>を算出する際の回復量は<strong>下限値</strong>(要するに一番下振れた時の回復量)で計算されます。
+    <br>
+    また、ホイミなどの単体回復は一番<strong>HP割合</strong>が低い仲間につかった状態で計算されます。
+    
+    <h3>【Step4】<strong>HP割合</strong>が<strong>HP回復行動閾値</strong>以下の仲間達の<strong>回復後HP割合</strong>がすべて90%以上？</h3>
+    <div class="step-image">
+        <img src="img/recover_step4.png" alt="Step4 フロー拡大図">
+    </div>
+    注意点として、Step3同様<strong>閾値以下の仲間達だけ</strong>を見てます。つまり先の例だと3番目の仲間(74%)についてはここでは無視です。
+    <br>
+    実際に <b>694(68%), 759(70%), 924(74%), 647(65%)</b> の<strong>回復後HP割合</strong>をシミュレートしてみましょう。
+    <br>
+    <ul>
+    <li>ホイミ(仮に回復量の下限値250だったとします)</li>
+        4番目の仲間にホイミします。<strong>回復後HP割合</strong>はそれぞれ
+        <br>
+        <strong>68%</strong>, <strong>70%</strong>, 74%, <strong>90%</strong>
+        <br>
+        4番目は90％に届いたけど1番目と2番目が90％未満のまま。次のスキルへ進みます。
+        
+    <li>ハッスル(仮に回復量の下限値249だったとします）</li>
+        全体を回復します。回復後のHP割合はそれぞれ
+        <br>
+        <strong>92%</strong>, <strong>93%</strong>, 94%, <strong>90%</strong>
+        <br>
+        1番目と2番目と4番目が90％以上ですね。<strong>ハッスルで確定</strong>です
+    </ul>
+    <br>
+    <b>めでたしめでたし。</b>
+    <br><br><br><br>
+    ・・・え？3番目を無視した効果がよくわからないって？
+
+    <br><br>
+    まぁ、ちょっとややこしいので一旦後回しにして流れを追うのを優先しましょう（後段で書きます）
+    <br>
+    と言っても、ここまで理解できたらもうあと少しです。もう難しいことはないんじゃないかな・・・（フラグ）
+    
+    <h3>【Step5】<strong>HP割合</strong>が<strong>HP回復行動閾値</strong>以下の仲間達の<strong>回復後HP割合</strong>の最低値が<br>最も高くなるスキルを候補にする</h3>
+    <div class="step-image">
+        <img src="img/recover_step5.png" alt="Step5 フロー拡大図">
+    </div>
+    <h4>『回復後HP割合の最低値が最も高くなる』</h4>
+    <strong>高いのか低いのかようわからん文章キター！！／(^o^)＼</strong>
+    <br><br>
+    冷静に見ていきましょう。
+    <br>
+    えーと、つまり、、、
+    <br>
+    <br>
+    <strong>ピンチな仲間達の回復後の状態を眺めて、いっちゃんピンチなやつが少しでもマシな状態になるように頑張るってこと！！！！</strong>
+    <br><br>疲れたので一気に雑になりました。が、この方がなんか案外わかりやすいんでわ！？（少なくとも小泉構文よりは）
+
+    <h3>【Step6】<strong>HP回復行動閾値</strong>以上の仲間の<strong>回復後HP割合</strong>の最低値が最も高くなるスキルを候補にする</h3>
+    <div class="step-image">
+        <img src="img/recover_step6.png" alt="Step6 フロー拡大図">
+    </div>
+    Step5で同率だった場合に通る判定です。
+    <br>
+    具体的にメイデンのよくあるスキルセットを例にすると、ホイミとハッスルどっちを使っても同じだった場合です。
+    <br><br>
+    同じってあんた、そんなんめったにないやつじゃない？気にしなくていいよね？？
+    <br><br>
+    って思いがちですが、思い出してください、小数点切り捨てられるので、<strong>思ったより同じになる幅が多い</strong>んです。
+    <br>
+    HPが1000付近の環境だとまぁざっくり回復量の数値で10差くらいまでは、割合にして切り捨てると同じ値になり得そうですよね？
+    <br>
+    ここで同率だった場合にはピンチじゃない味方（閾値を超えてる味方）の方にも視野を広げて見てくれます。
+    <br>たとえばわかりやすくホイミとハッスルが回復量まったく同じ状態だとします。
+    <br><br>
+    味方の<strong>HP割合</strong>が
+    <br>
+    <b>100%, 50%, 100%, 100%</b>
+    <br>
+    で、<strong>回復後HP割合</strong>が50%→89%な状況だったとしたら<strong>ホイミ</strong>します。
+    <br>
+    <b>100%, 50%, 100%, 99%</b>
+    <br>
+    だったら<strong>ハッスル</strong>します。という感じです（賢いですね～）
+        
+    <br><br>では復習ですが、同じようにホイミとハッスルの回復量が同じ状態で
+    <br>
+    <b>100%, 50%, 100%, 100%</b>
+    <br>
+    で、回復後HP割合が50%→90%な状況だったら？・・・もちろん<strong>ホイミ</strong>しますね。
+    <br>
+    じゃぁ
+    <br>
+    <b>100%, 50%, 100%, 99%</b>
+    <br>
+    だったら？
+    <br>
+    <br>
+    答え↓（ドラッグで反転して見てね）
+    <br>
+    <span style="background-color: #333; color: #333; padding: 2px 5px; border-radius: 3px;">ホイミですね。</span>
+    <br>
+    <br>
+    ほうら、簡単でしょ（頭こんがらがりまくり）
+    <br>
+    間違えた人はフローチャート見直しましょう(<strong>Step4</strong>ですね)。むずい(＞＜。)
+    
+    
+    <h2>3. 🚨超重要：<s>ここからが本題！攻略への応用ポイント</s><b>なんども言うけど攻略にはつながらない。ただ、抑えておきたい(知っておきたい)ポイントを振り返ります</b></h2>
+    <p>このロジックが判明したことで、性格ごとの<strong>「隠れた有意差」</strong>と<strong>「回復量調整の重要性」</strong>が浮き彫りになりました。</p>
+
+    <div class="card-list">
+        <h3>💡 性格ごとの「隠れた有意差」〜おせっかいとずのうの壁〜</h3>
+        <p>これまで性格の違いは単に回復行動をするかどうかだけに影響していると思われていましたが、実は<strong>全体回復するか単体回復するかどうかにまで影響が出てくることがわかりました</strong>
+        <br>
+        は？そんなことある？？と思いますよね。解説します。
+        </p>
+
+        <div class="point">
+            <strong>【具体例】パーティのHP割合が「60%, 79%, 100%, 100%」のような状況</strong><br>
+            前項の【Step4】で後回しにした話です。ずのうは『79％』の仲間を無視するが、おせっかいは救おうとするという状況でどうなるのか。詳しく見ていきましょう。
+            <br>
+            <b>手持ち：ホイミ（MP小 / 回復量中）、ハッスル（MP大 / 回復量中）</b>
+        </div>
+
+        <h4>🧠 「ずのう」の場合（閾値70%）</h4>
+        <p>ピンチだと判定される対象は「60%」の<strong>1体のみ</strong>です。</p>
+        <ol>
+            <li>ホイミで60%の仲間を全快近く(90%以上)まで回復すると試算</li>
+            <li>ピンチな仲間（1体）が90%以上になったため、<strong>ホイミで即決定！</strong></li>
+        </ol>
+        <p>結果、<strong>79%で削られている仲間は放置</strong>されます。</p>
+
+        <h4>🤝 「おせっかい」の場合（閾値80%）</h4>
+        <p>ピンチだと判定される対象は「60%」と「79%」の<strong>2体</strong>になります。</p>
+        <ol>
+            <li>ホイミで60%の仲間は全快近く(90%以上)まで回復しますが、79%の仲間はそのまま。</li>
+            <li>ピンチな仲間（2体）のうち1体は90%未満なので判定は継続。次のスキルの試算へ進みます</li>
+            <li>ハッスルで2人とも90%以上に回復すると試算し、<strong>ハッスルで決定！</strong></li>
+        </ol>
+
+        <div class="note">
+            <b>は？？<br><strong>HP回復行動の閾値</strong>ってこんなところにも効いてくるの？？？聞いてないし！！おせっかい優秀すぎワロタｗｗｗ</b>
+            <br>
+            性格格差が今まで思ってたのよりは少し広がったと言えるのかもしれません。
+        </div>
+    </div>
+
+    <div class="card-list">
+        <h3>💡 ② 全体回復の回復量を単体回復以上にする重要性</h3>
+        古のザオマラー全盛の頃からさんざん言われていたように、全体回復を上回る単体回復スキル（ベホイミさん）があるのは良くないという話は改めて言うまでもないですが、
+        それについては
+        <br>
+        <ul>
+        <li>「ベホイミ」覚えるワイキンは<strong>救えない</strong>。
+        <li>ホクブリに間違って「ベホイミ」つけたのなら別スキルで上書け。
+        </ul>
+        というような0か1かという抗えない状態（<strong>ベホイミの回復量を全体回復で超えることが現状無理</strong>なため）だったので知ってさえいれば他の人と差が付くことはないものでした。
+        <br>
+        <br>
+        ところがハッスルブレイク実装後で<strong>頑張れば</strong>他の人と大きく差が付くようになってしまいました。
+        そう、<strong>とくぎHP回復の継承玉を盛る</strong>ことで、「ホイミ＞ハッスル」の回復量を<strong>「ホイミ＜ハッスル」に逆転させる</strong>ことができるからですね。
+        極メイデンのステータスでとくぎHP回復の継承玉AAを継承させると、結構な割合で「ホイミ≒ハッスル」になります（性格、成長次第）
+        <br>
+        この状態だとフローのいろんな判定箇所で「同率」になってホイミが選ばれるケースが増えてしまいます。
+        <br>
+        <br>
+        「ホイミ＜ハッスル」とするのが大事ですが、さらになるべくその差を広げたほうがホイミが選ばれるケースが少なくなるため、<strong>頑張ってSA継承</strong>を目指しましょう（運営やってんなーｗ）
+
+    </div>
+
+    <hr>
+    <p>AIの挙動を理解すれば、あなたのヒーラーはもっと輝きます。ナナレーターでこの数値を再現して、最強の構成を見つけ出しましょう！<strong>(まだ回復ロジック変更してないけどな！)</strong></p>
+
+    <a href="index.html" class="back-link">🔙 トップページに戻る</a>
+
+</body>
+</html>

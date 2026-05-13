@@ -222,7 +222,7 @@
                 </ul>
             </div>
             <div class="tool-card-footer" style="display: flex; flex-direction: column; gap: 12px;">
-                <a href="https://jisaqwdosnrnxnlpzmhr.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://nakamon.net/auth.html" 
+                <a href="https://jisaqwdosnrnxnlpzmhr.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://localhost:5500/auth.html" 
                    style="display: flex; align-items: center; justify-content: center; gap: 12px; background-color: #ff9800; color: white; padding: 10px; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, background-color 0.2s; width: 100%; box-sizing: border-box;"
                            onmouseover="this.style.backgroundColor='#e68a00'; this.style.transform='translateY(-2px)'"
                    onmouseout="this.style.backgroundColor='#ff9800'; this.style.transform='translateY(0)'">
@@ -245,13 +245,27 @@
             <div class="tool-card-header" style="background-color: #6c757d;"> 
                 <h2>🧮 攻略情報・データ</h2>
             </div>
-            <div class="tool-card-body">
-                <div class="guide-box">
+              <div class="tool-card-body">
+                <div class="guide-box" style="margin-bottom: 20px; border-color: #ff8c00; background-color: #fff9f0;">
+                    <h3 style="margin-top: 0; font-size: 1.1em; color: #e67e00;">🔍 シミュレーター内部ロジック解析</h3>
+                    <p style="font-weight: bold; margin-bottom: 8px;">【第1弾】回復スキル選択のアルゴリズム</p>
+                    <p style="font-size: 0.85em;">
+                        「なぜそこでベホマラーを撃たないのか？」その疑問に答えます。
+                        開発過程で判明した、性格ごとの隠れた有意差とAIの思考プロセスを公開。
+                    </p>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <a href="hp_recovery_logic.html" class="start-button" style="padding: 10px 25px; font-size: 0.9em; background-color: #ff8c00;">
+                            解析レポートを読む ➡
+                        </a>
+                    </div>
+                </div>
+
+                <div class="guide-box" style="opacity: 0.8;">
                     <h3 style="margin-top: 0; font-size: 1.1em;">📚 ドラぽか「年越しチャレンジ Lv.99」 安定周回法</h3>
-                    <p>高難度「ドラぽか2025」の効率的な周回手順を解説しています。</p>
+                    <p style="font-size: 0.85em;">高難度「ドラぽか2025」の効率的な周回手順を解説しています。</p>
                     <div style="text-align: center; margin-top: 15px;">
-                        <a href="dorapoka_lv99.html" class="start-button guide-button">
-                            解説ページを見る ➡
+                        <a href="dorapoka_lv99.html" class="start-button guide-button" style="padding: 8px 20px; font-size: 0.8em;">
+                            解説ページを見る
                         </a>
                         <p style="margin-top: 10px; font-size: 0.8em; color: #888;">
                             ※イベント期間は終了しました
@@ -316,7 +330,10 @@
             // var redirectUrl = "https://sim.nakamon.net/";
 
             // ▼ 平常時
-            var redirectUrl = "https://n-lator.streamlit.app/";
+            // var redirectUrl = "https://n-lator.streamlit.app/";
+            
+            // ▼ localhost用
+            var redirectUrl = "https://localhost:8501/";
 
             window.open(redirectUrl, '_self');
         }
