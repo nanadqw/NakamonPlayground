@@ -171,6 +171,44 @@
             box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
         }
 
+        /* 独り言（コラム）バナー */
+        .column-banner {
+            max-width: 900px;
+            margin: 2.5em auto;
+            padding: 1.8em 2em;
+            background: linear-gradient(135deg, #fffdec 0%, #ffffff 100%);
+            border: 2px solid #ffedc2;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5em;
+            flex-wrap: wrap;
+        }
+        .column-banner-text { flex: 1 1 320px; }
+        .column-banner h2 {
+            margin: 0 0 0.4em 0;
+            font-size: 1.25em;
+            color: #2c2c2c;
+        }
+        .column-banner p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .column-banner .latest {
+            display: inline-block;
+            margin-top: 0.8em;
+            font-size: 0.82em;
+            color: #8a7a5c;
+            background: #fffaf0;
+            border: 1px dashed #ffd591;
+            border-radius: 50px;
+            padding: 4px 14px;
+        }
+        .column-banner .latest-date { color: #b0a48c; }
+
         .info-container, .disclaimer-container {
             max-width: 900px;
             margin: 2em auto;
@@ -276,6 +314,21 @@
         </div>
 
     </main>
+
+    <section class="column-banner">
+        <div class="column-banner-text">
+            <h2>☕ なかモン独り言</h2>
+            <p>
+                攻略記事にするほどでもない小ネタ、検証中に思ったこと、開発の裏側などを気ままに書いているコーナーです。
+            </p>
+            <!-- LATEST:START -->
+            <span class="latest">最新：#001「最適パーティー検索について」<span class="latest-date">（2026/08/24）</span></span>
+            <!-- LATEST:END -->
+        </div>
+        <a href="column.html" class="start-button" style="flex: 0 0 auto;">
+            独り言を読む ➡
+        </a>
+    </section>
 
     <section class="support-container">
         <h2>🍵 開発を応援する（OFUSE）</h2>

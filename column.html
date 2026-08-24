@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>なかモン独り言 | なかモンPlayground</title>
+    <meta name="description" content="なかモンPlayground管理人の独り言コーナー。ドラクエウォーク「なかまモンスター」の検証裏話や、シミュレーター開発の日々のぼやきを気ままに書いています。">
+    <meta name="keywords" content="ドラクエウォーク, DQウォーク, なかまモンスター, なかモン, コラム, 独り言, 開発日記">
+    <link rel="canonical" href="https://nakamon.net/column.html">
+
+    <meta property="og:title" content="なかモン独り言 | なかモンPlayground">
+    <meta property="og:description" content="検証の裏話とシミュレーター開発のぼやき。管理人の独り言コーナーです。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://nakamon.net/column.html">
+    <meta property="og:image" content="https://nakamon.net/img/mahi.png">
+    <meta name="twitter:card" content="summary">
+
+    <style>
+        :root {
+            --accent: #ff8c00;
+            --accent-dark: #e67e00;
+            --ink: #333;
+            --ink-soft: #666;
+            --paper: #ffffff;
+            --bg: #f8faf9;
+        }
+        body {
+            font-family: 'Hiragino Maru Gothic ProN', 'Rounded Mplus 1c', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 1em;
+            background-color: var(--bg);
+            color: var(--ink);
+            line-height: 1.9;
+        }
+        .wrap { max-width: 760px; margin: 0 auto; }
+
+        .back-link {
+            display: inline-block;
+            margin: 0.5em 0 1em 0;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        /* ===== ヘッダー ===== */
+        .header-container {
+            padding: 2.2em 1.6em;
+            background: linear-gradient(135deg, #fffdec 0%, #ffffff 100%);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 2px solid #ffedc2;
+            text-align: center;
+        }
+        .header-container h1 { margin: 0; font-size: 1.9em; color: #2c2c2c; letter-spacing: 0.04em; }
+        .header-container .lead { margin: 0.6em 0 0 0; color: var(--ink-soft); font-weight: bold; font-size: 0.95em; }
+        .header-container .note {
+            margin: 1.2em auto 0 auto;
+            max-width: 520px;
+            font-size: 0.82em;
+            color: #8a7a5c;
+            background: #fffaf0;
+            border: 1px dashed #ffd591;
+            border-radius: 12px;
+            padding: 0.8em 1em;
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        /* ===== 目次 ===== */
+        .toc {
+            margin: 2em 0;
+            padding: 1.4em 1.6em;
+            background: var(--paper);
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+        }
+        .toc h2 {
+            margin: 0 0 0.8em 0;
+            font-size: 1.05em;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+        .toc ol { margin: 0; padding-left: 1.3em; font-size: 0.92em; }
+        .toc li { margin-bottom: 0.5em; }
+        .toc a { color: var(--accent-dark); text-decoration: none; font-weight: bold; }
+        .toc a:hover { text-decoration: underline; }
+        .toc .toc-date { color: #999; font-weight: normal; font-size: 0.85em; margin-left: 0.4em; }
+
+        /* ===== 記事カード ===== */
+        .entry {
+            background: var(--paper);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            padding: 1.8em 1.8em 1.6em 1.8em;
+            margin: 0 0 2em 0;
+            scroll-margin-top: 1em;
+        }
+        .entry-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.7em;
+            flex-wrap: wrap;
+            margin-bottom: 0.6em;
+        }
+        .entry-date {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.78em;
+            font-weight: bold;
+            padding: 3px 12px;
+            border-radius: 50px;
+            letter-spacing: 0.03em;
+        }
+        .entry-no { font-size: 0.78em; color: #aaa; font-weight: bold; }
+        .entry-tag {
+            font-size: 0.75em;
+            color: var(--accent-dark);
+            background: #fff5e6;
+            border: 1px solid #ffe0b2;
+            border-radius: 50px;
+            padding: 2px 10px;
+        }
+        .entry h2 {
+            margin: 0 0 0.8em 0;
+            font-size: 1.28em;
+            line-height: 1.5;
+            color: #2c2c2c;
+            border-left: 6px solid var(--accent);
+            padding-left: 0.6em;
+        }
+        .entry h2 .anchor {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.7em;
+            margin-left: 0.4em;
+        }
+        .entry h2 .anchor:hover { color: var(--accent); }
+        .entry h3 {
+            font-size: 1.02em;
+            margin: 1.8em 0 0.5em 0;
+            color: #444;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+        }
+        .entry p { margin: 0 0 1.1em 0; font-size: 0.96em; }
+        .entry ul, .entry ol { padding-left: 1.4em; font-size: 0.94em; color: #555; }
+        .entry li { margin-bottom: 0.5em; }
+        .entry a { color: #007bff; }
+        .entry strong { background: linear-gradient(transparent 68%, #ffe0a3 68%); }
+        .entry s { color: #999; }
+        .entry img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid #eee; }
+
+        /* 記事内で使えるパーツ */
+        .memo {
+            background: #fffaf0;
+            border: 1px solid #ffe0b2;
+            border-radius: 12px;
+            padding: 1em 1.2em;
+            font-size: 0.9em;
+            margin: 1.2em 0;
+        }
+        .memo .memo-title { font-weight: bold; color: var(--accent-dark); display: block; margin-bottom: 0.3em; }
+        .quote {
+            border-left: 4px solid #ddd;
+            padding: 0.2em 0 0.2em 1em;
+            margin: 1.2em 0;
+            color: #777;
+            font-size: 0.92em;
+        }
+        .entry-more { text-align: right; margin: 1.2em 0 0 0; }
+        .entry-more a {
+            display: inline-block;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            background: var(--accent);
+            padding: 8px 22px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(255,140,0,0.25);
+        }
+        .entry-more a:hover { background: var(--accent-dark); }
+
+        .entry-foot {
+            margin-top: 1.5em;
+            padding-top: 0.8em;
+            border-top: 1px dashed #eee;
+            font-size: 0.8em;
+            color: #aaa;
+            text-align: right;
+        }
+
+        /* ===== フッター ===== */
+        .footer-box {
+            margin: 2.5em 0 1em 0;
+            padding: 1.6em;
+            background: var(--paper);
+            border: 1px solid #eee;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 0.88em;
+            color: var(--ink-soft);
+        }
+        .footer-box a { color: #007bff; }
+        .to-top { display: inline-block; margin-top: 0.8em; font-weight: bold; text-decoration: none; color: var(--accent-dark); }
+
+        @media (max-width: 600px) {
+            body { padding: 0.6em; line-height: 1.85; }
+            .entry { padding: 1.3em 1.1em; }
+            .header-container h1 { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap" id="top">
+
+    <a href="index.html" class="back-link">🔙 トップページに戻る</a>
+
+    <header class="header-container">
+        <h1>☕ なかモン独り言</h1>
+        <p class="lead">〜 検証の裏話と、開発中のぼやき 〜</p>
+        <p class="note">
+            攻略記事にするほどでもない小ネタ、検証中に思ったこと、シミュレーター開発の裏側などを気ままに書き残していくコーナーです。
+            <strong>役に立つ保証はありません。</strong>ゆるくお付き合いください。
+        </p>
+    </header>
+
+    <!-- ===== 目次（以下は column_src.txt から自動生成。手で編集しないこと） ===== -->
+    <nav class="toc">
+        <h2>📑 これまでの独り言</h2>
+        <!-- TOC:START -->
+        <ol>
+            <li><a href="#no001">最適パーティー検索について</a><span class="toc-date">2026/08/24</span></li>
+        </ol>
+        <!-- TOC:END -->
+    </nav>
+
+    <!-- ===== 本文（以下は column_src.txt から自動生成。手で編集しないこと） ===== -->
+    <main>
+
+        <!-- ENTRIES:START -->
+        <article class="entry" id="no001">
+            <div class="entry-meta">
+                <span class="entry-date">2026/08/24</span>
+                <span class="entry-no">#001</span>
+            </div>
+            <h2>最適パーティー検索について<a href="#no001" class="anchor">#</a></h2>
+
+            <p>
+                手持ちのモンスターを登録するだけで、グランプリ用の最適3パーティーを探索してくれるという非常にキャッチーなツールが出てきました。
+            </p>
+
+            <h3>自動化機能をリリースしない理由</h3>
+
+            <p>
+                ・・・まず最初にナナレーターとしてはこれまでオフ会くらいでしかはっきり言及したことはなかったと思いますが、自動化機能をリリースする予定はありません。理由はみなさん想像してる通り、パーティー構築考えるのがなかモンの醍醐味の一つと思ってる点と、もう一つは結果に責任が持てない点とです。継承玉全通りを完全に網羅できるのであれば別ですが、それは計算量がとんでもないことになるので、一般向けにリリースするとしたら流行りの継承を何通りかプリセットしたりという工夫が必要なのですが、それやっちゃうと多くの人が同じパターンのプリセット相手にチューニングすることになるので、それは避けたいと考えております。環境に影響を与えたくないので。ナナレーターで敵パーティーを構築するのがクソ面倒なのに何も手を打ってないのはそういった理由もあります。（だとしてももう少し楽にできる工夫はあると思うが、そこはただただだださぼってるだけです。言い訳ですｗ）とここまで書いておいて言うのもなんですが、もちろんこれは私の個人の思想なので、別に作るのは個人の自由なので、プックルさんに対しておいやめろ！とかそういうのを言っているわけではありません。<s>真っ先にシミュレーター公開始めたのはどこのどいつだっていう巨大ブーメランが飛んでくるｗ</s>
+            </p>
+
+            <h3>触ってみた感想</h3>
+
+            <p>
+                さて、話を戻してさっそく触ってみましたが、なかなかよくできています。<br><a href="https://nakamon-db.com/" target="_blank" rel="noopener noreferrer">https://nakamon-db.com/</a> ＞ パーティーサーチβ<br>特に優れているのはスマホでサクサク動く点。ナナレーターの課題というか割と今までさぼっていた「とっつきにくさ」をドンピシャにカバーしているのでシミュレーター類に抵抗があった層にも使ってもらえそうな良ツールだと思いました。<s>勝手な思い込みですが「ナナレーター使いづらすぎる。もっと使いやすいの作ってやるわ！」というメッセージを感じます（自意識ｗ）</s>
+            </p>
+
+            <p>
+                精度も最初はよくわからないパーティーが選ばれたりしてましたが、日を置いて試すと前回グランプリパーティーに近いのが出てくれたので実用に使えるくらいに改善が進んでそうな雰囲気です。
+            </p>
+
+            <h3>人間が考えることはなくなるのか</h3>
+
+            <p>
+                さてでは、自動化で人間考えることなくなるやん！についてどうでしょうか。これについては相手パーティー構成固定のため現状問題ないと思います。というか冒頭でも書いた通り初心者がミスリードされそうで逆に危うい感じもありそうです。作者のプックルさんも注意喚起してますが、あくまで答え合わせとか、構成検討の導入に使うのが良くて、例えばあと勝率を1％上げるためにアレを入れたりこれを付け替えたりしてよし1％上がったからそれでいこう！・・・とはならんので気をつけるべし。<s>みんなすげー勝率高いな。自分もハーゴンとかいれたら勝率上がるのかなドキドキ。ぽちっとな。と今日やってたのは内緒ですｗ普通に楽しい</s>
+            </p>
+
+            <div class="memo">
+                <span class="memo-title">💡 「自分の考えたパーティーが出てきた！」という人へ</span>
+                ちなみに、マス1～グラマスの人で「しゅげー！わたしの考えたグランプリパーティーに近いのが出てきた！あんなに苦労して考えたのに！」という類のポストをちらほら見ますが、それはあなたの実力なので安心してください。あなた、ヒャドパに当てるためにヒャド耐性二つ積んでますよね？軽量パの猿の上を取るために考えて素早さ入れてますよね？その継承そのまま入れてますよね？それでそのパーティーが出てきたならそれはあなたの実力ということです。ヒャド耐性2つをイオ耐性2つに変えてみてください。たぶん出てこないと思うので。（具体的に書いてますがかなり適当なので気にしないで。言いたいこと伝われ～！念！）
+            </div>
+
+            <h3>完全自動ツールが出てきたら？</h3>
+
+            <p>
+                じゃぁ将来的に相手パーティも自動で玉も付け替え可能で全自動ツールみたいになったら？プックルさんはそこまでするつもりは（今のところ）なさそうですが、AIの進化がすごいのでいつ他からリリースされてもおかしくはありません。・・・まぁ実は検索にすごい時間がかかるってだけで、作って公開しようと思ったらすぐにでもできると思います。ただ、検索にすごい時間かかるので環境読みミスったら一瞬でその時間が水の泡なので、初心者が手を出せる代物になるには相当ハードが進化しないと無理なんじゃないかな。しらんけど。もしそんな時間かからずに何も考えなくても最適パーティーが出てきてくれるような画期的なツールがでた場合は、それはヤバいですが、たぶんなかモンごときユーザー数のゲームにそんなとんでもないツールは出てこないんじゃないかなという気はします。そこまで突き詰めてやりたい人はもっとメジャーコンテンツに対してやると思うので。例えば囲碁とか。そんで、たぶんまぁそれでもそんなすごいのが仮に出てきたら、たぶん運営に取り上げられるんじゃないかなｗ権利侵害とかで。しらんけど。なので安心してくださいというわけではないですが、そんなところが私の今の見解（感想）です。
+            </p>
+
+            <h3>個人的な注目ポイントは継承の統計情報</h3>
+
+            <p>
+                ・・・ここから先は有料級情報なので書かない方が良いかもしれませんが、プックルさんのシミュレーター（長いので以下プクレーターとしますｗ)の一番の注目ポイントは継承の統計情報じゃないかなと思います。もうリリースされたのか把握してないですが、みんなが見れるようになるということで、これは結構重要なデータになりそうですね。実はナナレーターでも統計だして～とか考えてたりしてたんですが、敵モンスターの情報はあくまで架空なので設計上敵味方を区別していない現状、いまいち有効なデータにならないだろうなと思ってやってません。その点プクレーターは登録してるのは味方情報のみなので、非常に精度の高い統計が取れそうに感じてます。なるほどな、こういう戦略で設計すべきなんだなと感心しておりますｗ（データ収集が目的ではないと思いますが）
+            </p>
+
+            <h3>おわりに</h3>
+
+            <p>
+                ということで、長々と書きましたが、今までナナレーターの自動化機能どうするのとかって書いたことなかったので、いい機会だったので書かせていただきました。そんなこと言いながら裏では3パーティー自動選出機能作ってるんだろ？って思うと思いますが、実は本当に作ってないんですよね。特定の数パーティー相手に最高勝率出せる組み合わせ探索くらいは作ったんですが、完全自動化みたいなのはやるとしてももうちょっとシミュレーター使いやすくしてからだなと思って延々と進めておりませんｗやはり自分の中での優先度があんまり高くないのかもしれません<br>ただ、プクレーターを見て私もちょっとやってみようかなと思ったので、近いうちにやるかもしれませんｗ（公開はしないですが）<br>ではまた次回（あるのか？）お会いしましょう～！
+            </p>
+
+            <div class="entry-foot">なかモンPlayground 管理人</div>
+        </article>
+        <!-- ENTRIES:END -->
+    </main>
+
+    <div class="footer-box">
+        更新のお知らせは <a href="https://x.com/nakamon_sim" target="_blank" rel="noopener noreferrer">X（旧Twitter）</a> で流しています。<br>
+        感想やツッコミも、そちらへどうぞ。
+        <br>
+        <a href="#top" class="to-top">▲ ページの先頭へ</a>
+        <br>
+        <a href="index.html" class="to-top">🔙 トップページに戻る</a>
+    </div>
+
+</div>
+
+</body>
+</html>
