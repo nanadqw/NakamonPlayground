@@ -272,7 +272,8 @@
                 <a href="https://jisaqwdosnrnxnlpzmhr.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://nakamon.net/auth.html" 
                    style="display: flex; align-items: center; justify-content: center; gap: 12px; background-color: #ff9800; color: white; padding: 10px; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, background-color 0.2s; width: 100%; box-sizing: border-box;"
                            onmouseover="this.style.backgroundColor='#e68a00'; this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.backgroundColor='#ff9800'; this.style.transform='translateY(0)'">
+                   onmouseout="this.style.backgroundColor='#ff9800'; this.style.transform='translateY(0)'"
+                   onclick="if (typeof gtag === 'function') { gtag('event', 'login_start', { method: 'google' }); }">
 
                     <div style="background-color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20" height="20" alt="Google logo">
@@ -397,6 +398,12 @@
 
     <script>
         function redirectToSimulator() {
+            // GA4: ゲスト開始を計測する。gtag が読み込めていない環境でも
+            // ボタン自体は必ず動くように、存在チェックしてから呼ぶ。
+            if (typeof gtag === 'function') {
+                gtag('event', 'guest_start');
+            }
+
             // ▼ 新サーバー（グランプリ期間）
             // var redirectUrl = "https://sim.nakamon.net/";
 
